@@ -11,7 +11,7 @@ All GPU execution is simulated.
 
 | Name | University ID | GitHub username | Main responsibility |
 |------|---------------|-----------------|---------------------|
-|      |               |                 |                     |
+|Khalifa Almansoori|100061087|KhalifaAlmansoori|                     |
 |      |               |                 |                     |
 |      |               |                 |                     |
 
