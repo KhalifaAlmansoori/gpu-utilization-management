@@ -1,0 +1,33 @@
+# Compiled output
+out/
+bin/
+build/
+target/
+*.class
+*.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Runtime data written by the program (sample data lives in test-data/)
+data/*
+!data/.gitkeep
