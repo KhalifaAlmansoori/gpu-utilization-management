@@ -1,7 +1,7 @@
 # Model API (package `gpu.model`)
 
-Contract between Member 1 (model), Member 2 (logic) and Member 3 (GUI and storage).
-The model never imports `javax.swing`. If you need a method that is not listed, ask Member 1 or add it in a small commit and tell the group.
+Contract between Khalifa (model), Abdulkarim (logic) and Farouk (GUI and storage).
+The model never imports `javax.swing`. If you need a method that is not listed, ask me or add it in a small commit and tell the group.
 
 All times are `java.time.LocalDateTime` taken from the simulation clock. Never call `LocalDateTime.now()`.
 Show times with `TimeFormat.format(time)` (dd/MM/yyyy HH:mm).
