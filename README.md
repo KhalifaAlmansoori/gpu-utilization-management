@@ -13,7 +13,7 @@ All GPU execution is simulated.
 |------|---------------|-----------------|---------------------|
 |Khalifa Almansoori|100061087|KhalifaAlmansoori|Model Classes|
 |Farouk Zahran|100065717|Fero-Zahran|GUI and Storage|
-|      |               |                 |                     |
+|Abdulkarim Alawadhi|100066139|Abdulkarim2222|Scheduler and Logic|
 
 ## Requirements
 
