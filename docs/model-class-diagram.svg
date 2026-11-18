@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 1130" width="1900" height="1130" font-family="Helvetica,Arial,sans-serif">
+<defs><marker id="tri" markerWidth="14" markerHeight="14" refX="13" refY="7" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L13,7 L1,13 Z" fill="#fff" stroke="#333" stroke-width="1.3"/></marker><marker id="dia" markerWidth="20" markerHeight="14" refX="1" refY="7" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,7 L10,1 L19,7 L10,13 Z" fill="#333" stroke="#333"/></marker><marker id="arr" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#333" stroke-width="1.3"/></marker></defs>
+<rect width="1900" height="1130" fill="#fff"/>
+<text x="30" y="24" font-size="18" font-weight="bold" fill="#111">GPU Utilization Management: class diagram of package gpu.model</text>
+<polyline points="1176.5,290.0 1190.0,250.0 1191.7,208.0" fill="none" stroke="#333" stroke-width="1.3" marker-end="url(#tri)"/>
+<polyline points="1593.2,290.0 1590.0,250.0 1380.0,183.0" fill="none" stroke="#333" stroke-width="1.3" marker-end="url(#tri)"/>
+<polyline points="1026.3,290.0 900.0,170.0 830.0,144.0" fill="none" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#tri)"/>
+<line x1="690.0" y1="200.0" x2="690.0" y2="144.0" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#tri)"/>
+<polyline points="400.0,243.9 470.0,175.0 552.2,144.0" fill="none" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#tri)"/>
+<line x1="190.8" y1="190.0" x2="184.5" y2="128.0" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#tri)"/>
+<line x1="1140.0" y1="506.0" x2="1140.0" y2="600.0" stroke="#333" stroke-width="1.3" marker-start="url(#dia)"/>
+<text x="1185.0" y="580.0" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">allowance</text>
+<text x="1128.0" y="530.0" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">1</text>
+<text x="1152.0" y="576.0" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">1</text>
+<line x1="1320.0" y1="750.7" x2="1480.0" y2="753.1" stroke="#333" stroke-width="1.3" marker-start="url(#dia)"/>
+<text x="1400.0" y="729.9" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">grants</text>
+<text x="1343.8" y="763.1" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">1</text>
+<text x="1456.2" y="740.8" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">0..*</text>
+<polyline points="399.1,662.0 460.0,740.0 520.0,744.7" fill="none" stroke="#333" stroke-width="1.3" marker-end="url(#arr)"/>
+<text x="459.6" y="703.3" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">taskSize</text>
+<text x="507.0" y="721.2" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">1</text>
+<polyline points="336.7,662.0 480.0,940.0 520.0,941.9" fill="none" stroke="#333" stroke-width="1.3" marker-end="url(#arr)"/>
+<text x="428.3" y="802.0" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">status</text>
+<text x="516.9" y="915.3" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">1</text>
+<line x1="690.0" y1="432.0" x2="690.0" y2="520.0" stroke="#333" stroke-width="1.3" marker-end="url(#arr)"/>
+<text x="725.0" y="476.0" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">status</text>
+<text x="702.0" y="496.0" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">1</text>
+<line x1="215.0" y1="790.0" x2="215.0" y2="662.0" stroke="#333" stroke-width="1.3" marker-end="url(#arr)"/>
+<text x="263.0" y="726.0" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">currentJob</text>
+<text x="227.0" y="766.0" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">1</text>
+<text x="203.0" y="686.0" font-size="12" fill="#222" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">0..1</text>
+<polyline points="1482.1,458.0 1360.0,545.0 900.0,545.0 796.4,432.0" fill="none" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+<text x="1260.0" y="536.0" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">«uses»: approve / reject</text>
+<line x1="860.0" y1="347.0" x2="960.0" y2="365.2" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+<text x="910.0" y="348.1" font-size="11" fill="#444" text-anchor="middle" font-style="italic" paint-order="stroke" stroke="#fff" stroke-width="4">«creates»</text>
+<rect x="30" y="40" width="300" height="88" fill="#EEF3FB" stroke="#333" stroke-width="1.4"/>
+<text x="180.0" y="58" text-anchor="middle" font-size="11" fill="#444">«interface»</text>
+<text x="180.0" y="74" text-anchor="middle" font-size="14" font-weight="bold" font-style="italic" fill="#111">Cancellable</text>
+<line x1="30" y1="78" x2="330" y2="78" stroke="#333"/>
+<text x="40" y="93" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ isCancellable(): boolean</text>
+<text x="40" y="109" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ cancel(by, reason, when): void</text>
+<rect x="30" y="190" width="370" height="472" fill="#FFFFFF" stroke="#333" stroke-width="1.4"/>
+<text x="215.0" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Job</text>
+<line x1="30" y1="212" x2="400" y2="212" stroke="#333"/>
+<text x="40" y="227" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- jobId: String</text>
+<text x="40" y="243" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- studentId: String</text>
+<text x="40" y="259" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- title: String</text>
+<text x="40" y="275" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- applicationName: String</text>
+<text x="40" y="291" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- description: String</text>
+<text x="40" y="307" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- taskSize: TaskSize</text>
+<text x="40" y="323" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- submissionTime: LocalDateTime</text>
+<text x="40" y="339" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- status: JobStatus</text>
+<text x="40" y="355" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- assignedGpuId: Integer</text>
+<text x="40" y="371" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- startTime: LocalDateTime</text>
+<text x="40" y="387" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- finishTime: LocalDateTime</text>
+<text x="40" y="403" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- cancelTime: LocalDateTime</text>
+<text x="40" y="419" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- cancelledBy: String</text>
+<text x="40" y="435" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- cancelReason: String</text>
+<line x1="30" y1="446" x2="400" y2="446" stroke="#333"/>
+<text x="40" y="461" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ start(gpuId, now): void</text>
+<text x="40" y="477" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ complete(now): void</text>
+<text x="40" y="493" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ cancel(by, reason, when): void</text>
+<text x="40" y="509" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ isCancellable(): boolean</text>
+<text x="40" y="525" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getRuntimeMinutes(now): int</text>
+<text x="40" y="541" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getRemainingRuntime(now): int</text>
+<text x="40" y="557" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getExpectedFinish(): LocalDateTime</text>
+<text x="40" y="573" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getChargedMinutes(): int</text>
+<text x="40" y="589" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getQueueWaitMinutes(): int</text>
+<text x="40" y="605" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ hasStarted(): boolean</text>
+<text x="40" y="621" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ compareTo(other): int</text>
+<text x="40" y="637" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ toLine(): String</text>
+<text x="40" y="653" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ fromLine(line): Job  {static}</text>
+<rect x="30" y="790" width="370" height="184" fill="#FFFFFF" stroke="#333" stroke-width="1.4"/>
+<text x="215.0" y="808" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">GPU</text>
+<line x1="30" y1="812" x2="400" y2="812" stroke="#333"/>
+<text x="40" y="827" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- id: int</text>
+<text x="40" y="843" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- currentJob: Job</text>
+<line x1="30" y1="854" x2="400" y2="854" stroke="#333"/>
+<text x="40" y="869" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ isFree(): boolean</text>
+<text x="40" y="885" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ assign(job, now): void</text>
+<text x="40" y="901" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ release(): Job</text>
+<text x="40" y="917" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ restore(runningJob): void</text>
+<text x="40" y="933" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getRemainingRuntime(now): int</text>
+<text x="40" y="949" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getExpectedFinish(): LocalDateTime</text>
+<text x="40" y="965" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getFreeAt(now): LocalDateTime</text>
+<rect x="520" y="40" width="340" height="104" fill="#EEF3FB" stroke="#333" stroke-width="1.4"/>
+<text x="690.0" y="58" text-anchor="middle" font-size="11" fill="#444">«interface»</text>
+<text x="690.0" y="74" text-anchor="middle" font-size="14" font-weight="bold" font-style="italic" fill="#111">Storable</text>
+<line x1="520" y1="78" x2="860" y2="78" stroke="#333"/>
+<text x="530" y="93" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ toLine(): String</text>
+<text x="530" y="109" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ join(fields...): String  {static}</text>
+<text x="530" y="125" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ split(line): List&lt;String&gt;  {static}</text>
+<rect x="520" y="200" width="340" height="232" fill="#FFFFFF" stroke="#333" stroke-width="1.4"/>
+<text x="690.0" y="218" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">AccessRequest</text>
+<line x1="520" y1="222" x2="860" y2="222" stroke="#333"/>
+<text x="530" y="237" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- universityId: String</text>
+<text x="530" y="253" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- fullName: String</text>
+<text x="530" y="269" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- email: String</text>
+<text x="530" y="285" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- phone: String</text>
+<text x="530" y="301" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- password: String</text>
+<text x="530" y="317" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- status: RequestStatus</text>
+<line x1="520" y1="328" x2="860" y2="328" stroke="#333"/>
+<text x="530" y="343" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ approve(): void</text>
+<text x="530" y="359" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ reject(): void</text>
+<text x="530" y="375" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ isPending(): boolean</text>
+<text x="530" y="391" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ toStudent(minutes): Student</text>
+<text x="530" y="407" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ toLine(): String</text>
+<text x="530" y="423" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ fromLine(line): AccessRequest  {static}</text>
+<rect x="520" y="520" width="340" height="104" fill="#FBF4E6" stroke="#333" stroke-width="1.4"/>
+<text x="690.0" y="538" text-anchor="middle" font-size="11" fill="#444">«enumeration»</text>
+<text x="690.0" y="554" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">RequestStatus</text>
+<line x1="520" y1="558" x2="860" y2="558" stroke="#333"/>
+<text x="530" y="573" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">PENDING, APPROVED, REJECTED</text>
+<line x1="520" y1="584" x2="860" y2="584" stroke="#333"/>
+<text x="530" y="599" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getLabel(): String</text>
+<text x="530" y="615" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ parse(text): RequestStatus  {static}</text>
+<rect x="520" y="690" width="340" height="136" fill="#FBF4E6" stroke="#333" stroke-width="1.4"/>
+<text x="690.0" y="708" text-anchor="middle" font-size="11" fill="#444">«enumeration»</text>
+<text x="690.0" y="724" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">TaskSize</text>
+<line x1="520" y1="728" x2="860" y2="728" stroke="#333"/>
+<text x="530" y="743" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">SMALL(5), MEDIUM(15),</text>
+<text x="530" y="759" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">LARGE(30), VERY_LARGE(60)</text>
+<line x1="520" y1="770" x2="860" y2="770" stroke="#333"/>
+<text x="530" y="785" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getWorkloadUnits(): int</text>
+<text x="530" y="801" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getDurationMinutes(): int</text>
+<text x="530" y="817" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ parse(text): TaskSize  {static}</text>
+<rect x="520" y="890" width="340" height="120" fill="#FBF4E6" stroke="#333" stroke-width="1.4"/>
+<text x="690.0" y="908" text-anchor="middle" font-size="11" fill="#444">«enumeration»</text>
+<text x="690.0" y="924" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">JobStatus</text>
+<line x1="520" y1="928" x2="860" y2="928" stroke="#333"/>
+<text x="530" y="943" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">QUEUED, RUNNING,</text>
+<text x="530" y="959" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">COMPLETED, CANCELLED</text>
+<line x1="520" y1="970" x2="860" y2="970" stroke="#333"/>
+<text x="530" y="985" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ isFinal(): boolean</text>
+<text x="530" y="1001" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ parse(text): JobStatus  {static}</text>
+<rect x="1010" y="40" width="370" height="168" fill="#F3F0FA" stroke="#333" stroke-width="1.4"/>
+<text x="1195.0" y="58" text-anchor="middle" font-size="11" fill="#444">«abstract»</text>
+<text x="1195.0" y="74" text-anchor="middle" font-size="14" font-weight="bold" font-style="italic" fill="#111">User</text>
+<line x1="1010" y1="78" x2="1380" y2="78" stroke="#333"/>
+<text x="1020" y="93" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- username: String</text>
+<text x="1020" y="109" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- fullName: String</text>
+<text x="1020" y="125" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- password: String</text>
+<line x1="1010" y1="136" x2="1380" y2="136" stroke="#333"/>
+<text x="1020" y="151" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getUsername(): String</text>
+<text x="1020" y="167" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getFullName(): String</text>
+<text x="1020" y="183" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ checkPassword(attempt): boolean</text>
+<text x="1020" y="199" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getRole(): String  {abstract}</text>
+<rect x="960" y="290" width="360" height="216" fill="#FFFFFF" stroke="#333" stroke-width="1.4"/>
+<text x="1140.0" y="308" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Student</text>
+<line x1="960" y1="312" x2="1320" y2="312" stroke="#333"/>
+<text x="970" y="327" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- email: String</text>
+<text x="970" y="343" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- phone: String</text>
+<text x="970" y="359" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- password: String</text>
+<text x="970" y="375" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- allowance: TimeAllowance</text>
+<line x1="960" y1="386" x2="1320" y2="386" stroke="#333"/>
+<text x="970" y="401" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getUniversityId(): String</text>
+<text x="970" y="417" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getEmail(): String</text>
+<text x="970" y="433" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getPhone(): String</text>
+<text x="970" y="449" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getAllowance(): TimeAllowance</text>
+<text x="970" y="465" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getRole(): String</text>
+<text x="970" y="481" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ toLine(): String</text>
+<text x="970" y="497" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ fromLine(line): Student  {static}</text>
+<rect x="1400" y="290" width="400" height="168" fill="#FFFFFF" stroke="#333" stroke-width="1.4"/>
+<text x="1600.0" y="308" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">Administrator</text>
+<line x1="1400" y1="312" x2="1800" y2="312" stroke="#333"/>
+<text x="1410" y="327" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ USERNAME = &quot;admin&quot;  {const}</text>
+<text x="1410" y="343" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ PASSWORD = &quot;gpu2026&quot;  {const}</text>
+<line x1="1400" y1="354" x2="1800" y2="354" stroke="#333"/>
+<text x="1410" y="369" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ approve(request, minutes): Student</text>
+<text x="1410" y="385" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ approve(request): Student</text>
+<text x="1410" y="401" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ reject(request): void</text>
+<text x="1410" y="417" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ grantTime(student, minutes,</text>
+<text x="1410" y="433" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">      reason, when): Grant</text>
+<text x="1410" y="449" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getRole(): String</text>
+<rect x="960" y="600" width="360" height="296" fill="#FFFFFF" stroke="#333" stroke-width="1.4"/>
+<text x="1140.0" y="618" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">TimeAllowance</text>
+<line x1="960" y1="622" x2="1320" y2="622" stroke="#333"/>
+<text x="970" y="637" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ DEFAULT_MINUTES = 100  {const}</text>
+<text x="970" y="653" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- ownerId: String</text>
+<text x="970" y="669" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- allocated: int</text>
+<text x="970" y="685" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- used: int</text>
+<text x="970" y="701" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- reserved: int</text>
+<text x="970" y="717" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- grants: List&lt;Grant&gt;</text>
+<line x1="960" y1="728" x2="1320" y2="728" stroke="#333"/>
+<text x="970" y="743" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ available(): int</text>
+<text x="970" y="759" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ canReserve(minutes): boolean</text>
+<text x="970" y="775" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ reserve(minutes): void</text>
+<text x="970" y="791" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ release(minutes): void</text>
+<text x="970" y="807" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ charge(minutes): void</text>
+<text x="970" y="823" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ settle(reserved, charged): void</text>
+<text x="970" y="839" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ grant(minutes, reason, by,</text>
+<text x="970" y="855" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">      when): Grant</text>
+<text x="970" y="871" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ setAllocated(n): void</text>
+<text x="970" y="887" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getGrants(): List&lt;Grant&gt;</text>
+<rect x="1480" y="640" width="380" height="232" fill="#FFFFFF" stroke="#333" stroke-width="1.4"/>
+<text x="1670.0" y="658" text-anchor="middle" font-size="11" fill="#444">«nested class, implements Storable»</text>
+<text x="1670.0" y="674" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">TimeAllowance.Grant</text>
+<line x1="1480" y1="678" x2="1860" y2="678" stroke="#333"/>
+<text x="1490" y="693" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- ownerId: String</text>
+<text x="1490" y="709" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- minutes: int</text>
+<text x="1490" y="725" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- reason: String</text>
+<text x="1490" y="741" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- grantedBy: String</text>
+<text x="1490" y="757" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">- time: LocalDateTime</text>
+<line x1="1480" y1="768" x2="1860" y2="768" stroke="#333"/>
+<text x="1490" y="783" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getMinutes(): int</text>
+<text x="1490" y="799" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getReason(): String</text>
+<text x="1490" y="815" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getGrantedBy(): String</text>
+<text x="1490" y="831" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ getTime(): LocalDateTime</text>
+<text x="1490" y="847" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ toLine(): String</text>
+<text x="1490" y="863" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ fromLine(line): Grant  {static}</text>
+<rect x="1400" y="960" width="400" height="104" fill="#F1F1EE" stroke="#333" stroke-width="1.4"/>
+<text x="1600.0" y="978" text-anchor="middle" font-size="11" fill="#444">«utility»</text>
+<text x="1600.0" y="994" text-anchor="middle" font-size="14" font-weight="bold" fill="#111">TimeFormat</text>
+<line x1="1400" y1="998" x2="1800" y2="998" stroke="#333"/>
+<text x="1410" y="1013" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ FORMAT: DateTimeFormatter</text>
+<line x1="1400" y1="1024" x2="1800" y2="1024" stroke="#333"/>
+<text x="1410" y="1039" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ format(time): String  {static}</text>
+<text x="1410" y="1055" font-family="Menlo,Consolas,monospace" font-size="12" fill="#222" xml:space="preserve">+ parse(text): LocalDateTime  {static}</text>
+<rect x="950" y="985" width="395" height="112" fill="#FAFAFA" stroke="#BBB"/>
+<text x="960" y="1002" font-size="12" font-weight="bold">Legend</text>
+<line x1="960" y1="1022" x2="1010" y2="1022" stroke="#333" stroke-width="1.3" marker-end="url(#tri)"/>
+<text x="1022" y="1026" font-size="11">inheritance (extends)</text>
+<line x1="960" y1="1042" x2="1010" y2="1042" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#tri)"/>
+<text x="1022" y="1046" font-size="11">implements an interface</text>
+<line x1="968" y1="1062" x2="1010" y2="1062" stroke="#333" stroke-width="1.3" marker-start="url(#dia)"/>
+<text x="1022" y="1066" font-size="11">composition (owns, same life time)</text>
+<line x1="960" y1="1082" x2="1010" y2="1082" stroke="#333" stroke-width="1.3" marker-end="url(#arr)"/>
+<text x="1022" y="1086" font-size="11">association (has a / refers to)</text>
+<line x1="1190" y1="1022" x2="1235" y2="1022" stroke="#333" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#arr)"/>
+<text x="1245" y="1026" font-size="11">dependency (uses)</text>
+<text x="30" y="1060" font-size="12" fill="#333">Notes:</text>
+<text x="30" y="1080" font-size="12" fill="#333">- Job refers to its Student by the studentId text field (not an object link), so the Scheduler looks the student up by ID.</text>
+<text x="30" y="1098" font-size="12" fill="#333">- Queue position, predicted start and wait are not stored in Job; they are calculated from the records and the simulation clock.</text>
+<text x="30" y="1116" font-size="12" fill="#333">- All time values are LocalDateTime from the simulation clock; TimeFormat gives dd/MM/yyyy HH:mm for display and saving.</text>
+</svg>
