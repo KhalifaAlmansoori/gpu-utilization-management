@@ -177,6 +177,7 @@ public class Scheduler {
         if (job == null) {
             throw new IllegalArgumentException("Job is required.");
         }
+        
 
         if (getJobById(job.getJobId()) != null) {
             throw new IllegalStateException(
@@ -290,6 +291,21 @@ public class Scheduler {
 
         if (job == null) {
             throw new IllegalArgumentException("Job " + jobId + " was not found.");
+        }
+        
+        if (cancelledBy == null || cancelledBy.isBlank()) {
+            throw new IllegalArgumentException(
+                "The person cancelling the job must be identified."
+            );
+        }
+
+        String actor = cancelledBy.trim();
+
+        if (!"admin".equals(actor)
+                && !job.getStudentId().equals(actor)) {
+            throw new IllegalStateException(
+                "You can only cancel your own jobs."
+            );
         }
 
         if (!job.isCancellable()) {
