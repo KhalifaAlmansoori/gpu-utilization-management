@@ -10,6 +10,7 @@ import java.time.*;
  * Shares the existing account service, scheduler and simulation clock.
  * Each action calls the relevant service once, then saves and records a status message.
  * This class never creates a screen. Main reads the requested destination and opens it.
+ * Exception handlers follow Lectures 13-14; LocalDateTime is required by SimulationClock.
  * It can therefore be understood and compiled before any of the screen classes.
  */
 public class AppController {
@@ -145,6 +146,7 @@ public class AppController {
             status = message;
             return true;
         } catch (IOException exception) {
+            unsavedChanges = true;
             status = "Save failed: " + exception.getMessage()
                     + " Changes remain in this session. Use Save to retry.";
             return false;
@@ -171,7 +173,10 @@ public class AppController {
             accounts.registerStudent(id, name, email, phone, password);
             changed("Registration submitted. Wait for administrator approval.");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
@@ -181,13 +186,16 @@ public class AppController {
         try {
             // Compare with the formatted input to reject impossible dates such as 31/02.
             LocalDateTime start = TimeFormat.parse(text);
-            if (start == null || !TimeFormat.format(start).equals(text.trim())) {
+            if (start == null || !TimeFormat.format(start).equals(text)) {
                 throw new IllegalArgumentException("Enter a valid date as dd/MM/yyyy HH:mm.");
             }
             clock().setStartTime(start);
             changed("Simulation clock set.");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
@@ -198,7 +206,10 @@ public class AppController {
             accounts.approveRequest(id, minutes);
             changed("Registration approved for " + id + ".");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
@@ -209,7 +220,10 @@ public class AppController {
             accounts.rejectRequest(id);
             changed("Registration rejected for " + id + ".");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
@@ -220,7 +234,10 @@ public class AppController {
             accounts.grantAdditionalTime(id, minutes, reason, clock().getCurrentTime());
             changed("Additional time granted to " + id + ".");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
@@ -232,7 +249,10 @@ public class AppController {
             Job job = scheduler.submitJob(student.getAllowance(), title, application, description, size);
             changed("Job " + job.getJobId() + " submitted.");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
@@ -243,7 +263,10 @@ public class AppController {
             scheduler.cancelJob(jobId, actor, reason);
             changed("Job " + jobId + " cancelled.");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
@@ -254,7 +277,10 @@ public class AppController {
             scheduler.advanceMinute();
             changed("Simulation advanced by one minute.");
             return true;
-        } catch (IllegalArgumentException | IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
+            report(exception.getMessage());
+            return false;
+        } catch (IllegalStateException exception) {
             report(exception.getMessage());
             return false;
         }
