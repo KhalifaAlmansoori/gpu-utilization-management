@@ -1,4 +1,3 @@
-
 package gpu.logic;
 
 import java.time.LocalDateTime;
@@ -13,8 +12,8 @@ import gpu.model.TimeAllowance;
 import gpu.model.User;
 
 /**
- * Manages student registration, account approval,
- * login and additional GPU time.
+ * Manages student registration, account approval, login and additional GPU time.
+ * The class contains no Swing code; screens call these methods through the controller.
  */
 public class AccountService {
 
@@ -28,9 +27,7 @@ public class AccountService {
         this.requests = new ArrayList<>();
     }
 
-    /**
-     * Submits a new student registration request.
-     */
+    /** Submits a new student registration request. */
     public AccessRequest registerStudent(
             String universityId,
             String fullName,
@@ -67,16 +64,11 @@ public class AccountService {
         );
 
         requests.add(request);
-
         return request;
     }
 
-    /**
-     * Checks whether a university ID belongs to
-     * an existing student or a pending request.
-     */
+    /** Returns true for an approved student or a pending request with this ID. */
     public boolean isIdAlreadyUsed(String universityId) {
-
         if (universityId == null || universityId.isBlank()) {
             return false;
         }
@@ -90,8 +82,7 @@ public class AccountService {
         }
 
         for (AccessRequest request : requests) {
-            if (request.getUniversityId().equals(id)
-                    && request.isPending()) {
+            if (request.getUniversityId().equals(id) && request.isPending()) {
                 return true;
             }
         }
@@ -99,11 +90,8 @@ public class AccountService {
         return false;
     }
 
-    /**
-     * Approves a pending registration request.
-     */
+    /** Approves a pending request and creates a student with the chosen allowance. */
     public Student approveRequest(String universityId, int minutes) {
-
         if (minutes <= 0) {
             throw new IllegalArgumentException(
                 "Initial GPU minutes must be positive."
@@ -119,8 +107,7 @@ public class AccountService {
         }
 
         for (Student student : students) {
-            if (student.getUniversityId()
-                    .equals(request.getUniversityId())) {
+            if (student.getUniversityId().equals(request.getUniversityId())) {
                 throw new IllegalStateException(
                     "A student with this university ID already exists."
                 );
@@ -128,27 +115,18 @@ public class AccountService {
         }
 
         Student student = administrator.approve(request, minutes);
-
         students.add(student);
 
         return student;
     }
 
-    /**
-     * Approves a request with the default 100 GPU minutes.
-     */
+    /** Approves a request with the required default 100 GPU minutes. */
     public Student approveRequest(String universityId) {
-        return approveRequest(
-            universityId,
-            TimeAllowance.DEFAULT_MINUTES
-        );
+        return approveRequest(universityId, TimeAllowance.DEFAULT_MINUTES);
     }
 
-    /**
-     * Rejects a pending registration request.
-     */
+    /** Rejects a pending registration request. */
     public AccessRequest rejectRequest(String universityId) {
-
         AccessRequest request = findPendingRequest(universityId);
 
         if (request == null) {
@@ -158,26 +136,23 @@ public class AccountService {
         }
 
         administrator.reject(request);
-
         return request;
     }
 
-    /**
-     * Authenticates an administrator or approved student.
-     * Returns null when the username or password is incorrect.
-     */
+    /** Authenticates the administrator or an approved student; returns null on failure. */
     public User authenticate(String username, String password) {
-
-        if (username == null || password == null) {
+        if (username == null || password == null || username.isBlank()) {
             return null;
         }
 
-        if (administrator.getUsername().equals(username.trim())
+        String id = username.trim();
+
+        if (administrator.getUsername().equals(id)
                 && administrator.checkPassword(password)) {
             return administrator;
         }
 
-        Student student = getStudentById(username.trim());
+        Student student = getStudentById(id);
 
         if (student != null && student.checkPassword(password)) {
             return student;
@@ -186,11 +161,7 @@ public class AccountService {
         return null;
     }
 
-    /**
-     * Finds an approved student using university ID.
-     */
     public Student getStudentById(String universityId) {
-
         if (universityId == null) {
             return null;
         }
@@ -206,11 +177,7 @@ public class AccountService {
         return null;
     }
 
-    /**
-     * Finds a pending registration request.
-     */
     public AccessRequest findPendingRequest(String universityId) {
-
         if (universityId == null) {
             return null;
         }
@@ -218,8 +185,7 @@ public class AccountService {
         String id = universityId.trim();
 
         for (AccessRequest request : requests) {
-            if (request.getUniversityId().equals(id)
-                    && request.isPending()) {
+            if (request.getUniversityId().equals(id) && request.isPending()) {
                 return request;
             }
         }
@@ -227,29 +193,16 @@ public class AccountService {
         return null;
     }
 
-    /**
-     * Returns all approved students.
-     */
     public List<Student> getStudents() {
-        return Collections.unmodifiableList(
-            new ArrayList<>(students)
-        );
+        return Collections.unmodifiableList(new ArrayList<>(students));
     }
 
-    /**
-     * Returns all registration requests, including processed requests.
-     */
+    /** Includes pending, approved and rejected requests for history/storage. */
     public List<AccessRequest> getRequests() {
-        return Collections.unmodifiableList(
-            new ArrayList<>(requests)
-        );
+        return Collections.unmodifiableList(new ArrayList<>(requests));
     }
 
-    /**
-     * Returns only requests awaiting administrator approval.
-     */
     public List<AccessRequest> getPendingRequests() {
-
         List<AccessRequest> pending = new ArrayList<>();
 
         for (AccessRequest request : requests) {
@@ -265,9 +218,7 @@ public class AccountService {
         return administrator;
     }
 
-    /**
-     * Gives additional GPU minutes to an approved student.
-     */
+    /** Grants additional minutes and records the reason, administrator and simulated time. */
     public TimeAllowance.Grant grantAdditionalTime(
             String universityId,
             int minutes,
@@ -277,34 +228,20 @@ public class AccountService {
         Student student = getStudentById(universityId);
 
         if (student == null) {
-            throw new IllegalArgumentException(
-                "Student account was not found."
-            );
+            throw new IllegalArgumentException("Student account was not found.");
         }
 
-        return administrator.grantTime(
-            student,
-            minutes,
-            reason,
-            simulatedTime
-        );
+        return administrator.grantTime(student, minutes, reason, simulatedTime);
     }
 
-    /**
-     * Restores a student loaded from saved data.
-     */
+    /** Restores a student loaded from persistent storage. */
     public void restoreStudent(Student student) {
-
         if (student == null) {
-            throw new IllegalArgumentException(
-                "Student is required."
-            );
+            throw new IllegalArgumentException("Student is required.");
         }
 
         if (getStudentById(student.getUniversityId()) != null) {
-            throw new IllegalStateException(
-                "Duplicate student university ID."
-            );
+            throw new IllegalStateException("Duplicate student university ID.");
         }
 
         if (findPendingRequest(student.getUniversityId()) != null) {
@@ -316,15 +253,10 @@ public class AccountService {
         students.add(student);
     }
 
-    /**
-     * Restores a registration request loaded from saved data.
-     */
+    /** Restores a registration request loaded from persistent storage. */
     public void restoreRequest(AccessRequest request) {
-
         if (request == null) {
-            throw new IllegalArgumentException(
-                "Registration request is required."
-            );
+            throw new IllegalArgumentException("Registration request is required.");
         }
 
         if (request.isPending()
@@ -339,20 +271,14 @@ public class AccountService {
     }
 
     private void validateEmail(String email) {
-
         if (!email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
-            throw new IllegalArgumentException(
-                "Please enter a valid email address."
-            );
+            throw new IllegalArgumentException("Please enter a valid email address.");
         }
     }
 
     private void validatePhone(String phone) {
-
         if (!phone.matches("^\\+?[0-9() -]+$")) {
-            throw new IllegalArgumentException(
-                "Please enter a valid phone number."
-            );
+            throw new IllegalArgumentException("Please enter a valid phone number.");
         }
 
         String digits = phone.replaceAll("[^0-9]", "");
@@ -365,11 +291,9 @@ public class AccountService {
     }
 
     private void requireText(String value, String fieldName) {
-
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(
-                fieldName + " cannot be empty."
-            );
+            throw new IllegalArgumentException(fieldName + " cannot be empty.");
         }
     }
 }
+
