@@ -16,8 +16,9 @@ import gpu.model.TaskSize;
 import gpu.model.TimeAllowance;
 
 /**
- * Controls the four GPUs, the FCFS waiting queue and job execution.
- * All time calculations use the SimulationClock, never the computer clock.
+ * Controls four simulated GPUs, one shared FCFS queue, job execution,
+ * predictions, cancellations and utilization.
+ * All times come from SimulationClock; this class never uses the computer clock.
  */
 public class Scheduler {
 
@@ -25,16 +26,12 @@ public class Scheduler {
 
     private final SimulationClock clock;
     private final GPU[] gpus;
-
     private final PriorityQueue<Job> waitingJobs;
     private final List<Job> allJobs;
     private final Map<String, TimeAllowance> allowances;
 
     private int nextJobNumber = 101;
 
-    /**
-     * Creates a scheduler using the supplied simulation clock.
-     */
     public Scheduler(SimulationClock clock) {
         if (clock == null) {
             throw new IllegalArgumentException("A simulation clock is required.");
@@ -56,16 +53,9 @@ public class Scheduler {
         return clock;
     }
 
-    /**
-     * Returns the four GPUs in ID order.
-     */
     public List<GPU> getGpus() {
         List<GPU> result = new ArrayList<>();
-
-        for (GPU gpu : gpus) {
-            result.add(gpu);
-        }
-
+        Collections.addAll(result, gpus);
         return Collections.unmodifiableList(result);
     }
 
@@ -89,10 +79,7 @@ public class Scheduler {
         return count;
     }
 
-    /**
-     * Connects a student's allowance to the scheduler.
-     * Useful when restoring saved student data.
-     */
+    /** Registers an existing student's allowance, normally during storage restoration. */
     public void registerAllowance(TimeAllowance allowance) {
         if (allowance == null) {
             throw new IllegalArgumentException("Student allowance is required.");
@@ -111,8 +98,8 @@ public class Scheduler {
     }
 
     /**
-     * Accepts a job, reserves its full duration and places it in the FCFS queue.
-     * If a GPU is free, the job starts immediately.
+     * Reserves the whole job duration, adds the job to the FCFS queue,
+     * and immediately starts it if a GPU is free.
      */
     public Job submitJob(TimeAllowance allowance,
                          String title,
@@ -131,7 +118,6 @@ public class Scheduler {
         }
 
         String studentId = allowance.getOwnerId();
-
         TimeAllowance existing = allowances.get(studentId);
 
         if (existing != null && existing != allowance) {
@@ -152,32 +138,28 @@ public class Scheduler {
             clock.getCurrentTime()
         );
 
-        // Reserve the complete job duration before accepting the job.
+        // TimeAllowance rejects jobs above the available balance; exact matches are accepted.
         allowance.reserve(job.getEstimatedDuration());
 
         allowances.put(studentId, allowance);
-
         allJobs.add(job);
         waitingJobs.offer(job);
 
         nextJobNumber++;
 
-        // Start immediately if a GPU is available.
         startWaitingJobs();
 
         return job;
     }
 
     /**
-     * Restores a saved job.
-     * Register student allowances before restoring their active jobs.
-     * Call startQueuedJobs() after all saved jobs have been restored.
+     * Adds a previously saved job without charging its allowance again.
+     * Register allowances first, restore all jobs, then call startQueuedJobs().
      */
     public void restoreJob(Job job) {
         if (job == null) {
             throw new IllegalArgumentException("Job is required.");
         }
-        
 
         if (getJobById(job.getJobId()) != null) {
             throw new IllegalStateException(
@@ -192,6 +174,7 @@ public class Scheduler {
 
         if (job.getStatus() == JobStatus.QUEUED) {
             waitingJobs.offer(job);
+
         } else if (job.getStatus() == JobStatus.RUNNING) {
             Integer gpuId = job.getAssignedGpuId();
 
@@ -208,9 +191,7 @@ public class Scheduler {
         nextJobNumber = Math.max(nextJobNumber, job.getJobNumber() + 1);
     }
 
-    /**
-     * Starts queued jobs after saved running jobs have been restored.
-     */
+    /** Starts restored queued jobs after all saved running jobs have been restored. */
     public void startQueuedJobs() {
         if (!clock.isSet()) {
             throw new IllegalStateException("The simulation clock has not been set.");
@@ -219,9 +200,7 @@ public class Scheduler {
         startWaitingJobs();
     }
 
-    /**
-     * Starts the earliest waiting jobs on the lowest-numbered free GPUs.
-     */
+    /** Assigns queued jobs in FCFS order to free GPUs in increasing GPU ID order. */
     private void startWaitingJobs() {
         for (GPU gpu : gpus) {
             if (gpu.isFree() && !waitingJobs.isEmpty()) {
@@ -232,10 +211,10 @@ public class Scheduler {
     }
 
     /**
-     * Advances simulated time by one minute.
-     * Completes jobs that have reached their full duration and starts waiting jobs.
+     * Advances the clock one minute, settles jobs that finish, frees their GPUs,
+     * and immediately starts the next jobs in the FCFS queue.
      *
-     * @return jobs completed during this minute
+     * @return immutable list of jobs completed during this minute
      */
     public List<Job> advanceMinute() {
         if (!clock.isSet()) {
@@ -268,7 +247,6 @@ public class Scheduler {
             }
         }
 
-        // Give newly free GPUs to the earliest waiting jobs.
         startWaitingJobs();
 
         return Collections.unmodifiableList(completedJobs);
@@ -277,10 +255,8 @@ public class Scheduler {
     /**
      * Cancels a queued or running job.
      *
-     * Queued jobs are refunded completely.
-     * Running jobs are charged only for the minutes already executed.
-     *
-     * cancelledBy can be "admin" or the student's ID.
+     * Administrator identity is "admin"; a student must supply their own university ID.
+     * The GUI/controller must pass the username of the authenticated session, not typed input.
      */
     public Job cancelJob(String jobId, String cancelledBy, String reason) {
         if (!clock.isSet()) {
@@ -292,7 +268,7 @@ public class Scheduler {
         if (job == null) {
             throw new IllegalArgumentException("Job " + jobId + " was not found.");
         }
-        
+
         if (cancelledBy == null || cancelledBy.isBlank()) {
             throw new IllegalArgumentException(
                 "The person cancelling the job must be identified."
@@ -333,13 +309,14 @@ public class Scheduler {
                     "The job is not assigned to its recorded GPU."
                 );
             }
+
         } else if (!waitingJobs.contains(job)) {
             throw new IllegalStateException(
                 "The queued job is missing from the waiting queue."
             );
         }
 
-        job.cancel(cancelledBy, reason, clock.getCurrentTime());
+        job.cancel(actor, reason, clock.getCurrentTime());
 
         if (wasRunning) {
             allowance.settle(
@@ -348,6 +325,7 @@ public class Scheduler {
             );
 
             runningGpu.release();
+
         } else {
             waitingJobs.remove(job);
             allowance.release(job.getEstimatedDuration());
@@ -360,6 +338,10 @@ public class Scheduler {
     }
 
     public Job getJobById(String jobId) {
+        if (jobId == null) {
+            return null;
+        }
+
         for (Job job : allJobs) {
             if (job.getJobId().equals(jobId)) {
                 return job;
@@ -392,6 +374,30 @@ public class Scheduler {
         return Collections.unmodifiableList(result);
     }
 
+    public List<Job> getCompletedJobs() {
+        List<Job> result = new ArrayList<>();
+
+        for (Job job : allJobs) {
+            if (job.getStatus() == JobStatus.COMPLETED) {
+                result.add(job);
+            }
+        }
+
+        return Collections.unmodifiableList(result);
+    }
+
+    public List<Job> getCancelledJobs() {
+        List<Job> result = new ArrayList<>();
+
+        for (Job job : allJobs) {
+            if (job.getStatus() == JobStatus.CANCELLED) {
+                result.add(job);
+            }
+        }
+
+        return Collections.unmodifiableList(result);
+    }
+
     public int getQueuePosition(String jobId) {
         List<Job> queue = getQueuedJobs();
 
@@ -404,9 +410,7 @@ public class Scheduler {
         return -1;
     }
 
-    /**
-     * Predicts start times for all waiting jobs using the current GPU finish times.
-     */
+    /** Creates a forecast on copied GPU availability times; live GPU assignments are untouched. */
     private Map<String, LocalDateTime> calculatePredictedStarts() {
         Map<String, LocalDateTime> predictions = new HashMap<>();
 
@@ -421,11 +425,8 @@ public class Scheduler {
             freeAt[i] = gpus[i].getFreeAt(now);
         }
 
-        List<Job> queue = getQueuedJobs();
-
-        for (Job job : queue) {
-            // Find the GPU that becomes free first.
-            // In a tie, keep the lower GPU ID.
+        for (Job job : getQueuedJobs()) {
+            // Strictly-before keeps the lower GPU ID when availability times tie.
             int selectedGpu = 0;
 
             for (int i = 1; i < GPU_COUNT; i++) {
@@ -485,16 +486,14 @@ public class Scheduler {
 
         LocalDateTime start = getPredictedStartTime(jobId);
 
-        if (start == null) {
-            return null;
-        }
-
-        return start.plusMinutes(job.getEstimatedDuration());
+        return start == null
+            ? null
+            : start.plusMinutes(job.getEstimatedDuration());
     }
 
     /**
-     * Returns actual queue wait for a job that has started,
-     * or predicted queue wait for a job still waiting.
+     * For a queued job, returns predicted start minus CURRENT simulation time.
+     * For a job that has started, returns its actual total time spent waiting in the queue.
      * Returns -1 when no wait can be calculated.
      */
     public long getPredictedWaitMinutes(String jobId) {
@@ -508,33 +507,36 @@ public class Scheduler {
             return job.getQueueWaitMinutes();
         }
 
-        if (job.getStatus() != JobStatus.QUEUED) {
+        if (job.getStatus() != JobStatus.QUEUED || !clock.isSet()) {
             return -1;
         }
 
         LocalDateTime predictedStart = getPredictedStartTime(jobId);
 
-        return Duration.between(
-            job.getSubmissionTime(),
-            predictedStart
-        ).toMinutes();
+        if (predictedStart == null) {
+            return -1;
+        }
+
+        return Math.max(
+            0L,
+            Duration.between(clock.getCurrentTime(), predictedStart).toMinutes()
+        );
     }
 
-    /**
-     * Calculates the busy GPU minutes for one GPU from the job records.
-     */
     private long getBusyMinutesForGpu(int gpuId) {
         long total = 0;
         LocalDateTime now = clock.getCurrentTime();
 
         for (Job job : allJobs) {
-            if (job.getAssignedGpuId() == null
-                    || job.getAssignedGpuId() != gpuId) {
+            Integer assignedGpuId = job.getAssignedGpuId();
+
+            if (assignedGpuId == null || assignedGpuId.intValue() != gpuId) {
                 continue;
             }
 
             if (job.getStatus() == JobStatus.RUNNING) {
                 total += job.getRuntimeMinutes(now);
+
             } else if (job.getStatus() == JobStatus.COMPLETED
                     || (job.getStatus() == JobStatus.CANCELLED && job.hasStarted())) {
                 total += job.getChargedMinutes();
@@ -555,28 +557,30 @@ public class Scheduler {
     }
 
     /**
-     * Utilization percentage for one GPU.
+     * Returns one GPU's utilization percentage. Returns Double.NaN before one minute has elapsed;
+     * the UI should display that value as "N/A".
      */
     public double getGpuUtilizationPercent(int gpuId) {
-        getGpu(gpuId); // validates the ID
+        getGpu(gpuId);
 
         long elapsed = clock.getElapsedMinutes();
 
         if (elapsed <= 0) {
-            return 0.0;
+            return Double.NaN;
         }
 
         return getBusyMinutesForGpu(gpuId) * 100.0 / elapsed;
     }
 
     /**
-     * Overall utilization of all four GPUs.
+     * Returns overall utilization percentage. Returns Double.NaN at time zero;
+     * the UI should display that value as "N/A".
      */
     public double getOverallUtilizationPercent() {
         long elapsed = clock.getElapsedMinutes();
 
         if (elapsed <= 0) {
-            return 0.0;
+            return Double.NaN;
         }
 
         double totalCapacity = elapsed * GPU_COUNT;
@@ -596,3 +600,4 @@ public class Scheduler {
         return allowance;
     }
 }
+
