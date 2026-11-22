@@ -5,13 +5,11 @@ import gpu.model.*;
 import gpu.storage.*;
 import java.io.*;
 import java.time.*;
+import java.util.*;
 
 /**
- * Shares the existing account service, scheduler and simulation clock.
- * Each action calls the relevant service once, then saves and records a status message.
- * This class never creates a screen. Main reads the requested destination and opens it.
- * Exception handlers follow Lectures 13-14; LocalDateTime is required by SimulationClock.
- * It can therefore be understood and compiled before any of the screen classes.
+ * Screens call this controller; it calls the account service/scheduler and saves changes.
+ * It holds the signed-in user and destination. Main creates and switches the windows.
  */
 public class AppController {
     private DataStore store;
@@ -30,6 +28,7 @@ public class AppController {
         scheduler = restored.scheduler();
     }
 
+    // All screens share these same service objects and simulation clock.
     public AccountService accounts() {
         return accounts;
     }
@@ -86,6 +85,44 @@ public class AppController {
         }
     }
 
+    public boolean login(String username, String password) {
+        username = username == null ? "" : username;
+        // Ignore surrounding username spaces, but keep the password exactly as entered.
+        while (username.length() > 0 && username.charAt(0) <= ' ') {
+            username = username.substring(1);
+        }
+        while (username.length() > 0 && username.charAt(username.length() - 1) <= ' ') {
+            username = username.substring(0, username.length() - 1);
+        }
+        if (password == null || username.length() == 0 || password.length() == 0) {
+            report("Enter your university ID and password.");
+            return false;
+        }
+        User user = accounts.authenticate(username, password);
+        if (user != null) {
+            openSession(user);
+            return true;
+        }
+        report("Incorrect username or password.");
+        if (accounts.getStudentById(username) == null
+                && !accounts.getAdministrator().getUsername().equals(username)) {
+            // Read the newest request first because a rejected student can apply again.
+            List<AccessRequest> requests = accounts.getRequests();
+            for (int i = requests.size() - 1; i >= 0; i--) {
+                AccessRequest request = requests.get(i);
+                if (request.getUniversityId().equals(username)) {
+                    if (request.getStatus() == RequestStatus.PENDING) {
+                        report("Your registration is pending administrator approval.");
+                    } else if (request.getStatus() == RequestStatus.REJECTED) {
+                        report("Your registration was rejected. You may register again.");
+                    }
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+
     public void showStudent(int view) {
         if (!(signedIn instanceof Student)) {
             report("Please log in as a student.");
@@ -130,9 +167,16 @@ public class AppController {
         }
     }
 
-    private void changed(String message) {
+    // True means the action happened. A failed save must not make the user repeat it.
+    private boolean changed(String message) {
         unsavedChanges = true;
         saveChanges(message);
+        return true;
+    }
+
+    private boolean failed(Exception exception) {
+        report(exception.getMessage());
+        return false;
     }
 
     public boolean save() {
@@ -153,6 +197,7 @@ public class AppController {
         }
     }
 
+    // Keep the session open if saving fails, so the changed data is not lost.
     public void logout() {
         if (unsavedChanges && !save()) {
             return;
@@ -168,17 +213,15 @@ public class AppController {
         }
     }
 
+    // Each action delegates the rules, saves once, and reports validation errors.
     public boolean registerStudent(String id, String name, String email, String phone, String password) {
         try {
             accounts.registerStudent(id, name, email, phone, password);
-            changed("Registration submitted. Wait for administrator approval.");
-            return true;
+            return changed("Registration submitted. Wait for administrator approval.");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 
@@ -190,56 +233,44 @@ public class AppController {
                 throw new IllegalArgumentException("Enter a valid date as dd/MM/yyyy HH:mm.");
             }
             clock().setStartTime(start);
-            changed("Simulation clock set.");
-            return true;
+            return changed("Simulation clock set.");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 
     public boolean approveRequest(String id, int minutes) {
         try {
             accounts.approveRequest(id, minutes);
-            changed("Registration approved for " + id + ".");
-            return true;
+            return changed("Registration approved for " + id + ".");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 
     public boolean rejectRequest(String id) {
         try {
             accounts.rejectRequest(id);
-            changed("Registration rejected for " + id + ".");
-            return true;
+            return changed("Registration rejected for " + id + ".");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 
     public boolean grantTime(String id, int minutes, String reason) {
         try {
             accounts.grantAdditionalTime(id, minutes, reason, clock().getCurrentTime());
-            changed("Additional time granted to " + id + ".");
-            return true;
+            return changed("Additional time granted to " + id + ".");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 
@@ -247,42 +278,33 @@ public class AppController {
             String description, TaskSize size) {
         try {
             Job job = scheduler.submitJob(student.getAllowance(), title, application, description, size);
-            changed("Job " + job.getJobId() + " submitted.");
-            return true;
+            return changed("Job " + job.getJobId() + " submitted.");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 
     public boolean cancelJob(String jobId, String actor, String reason) {
         try {
             scheduler.cancelJob(jobId, actor, reason);
-            changed("Job " + jobId + " cancelled.");
-            return true;
+            return changed("Job " + jobId + " cancelled.");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 
     public boolean advanceMinute() {
         try {
             scheduler.advanceMinute();
-            changed("Simulation advanced by one minute.");
-            return true;
+            return changed("Simulation advanced by one minute.");
         } catch (IllegalArgumentException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         } catch (IllegalStateException exception) {
-            report(exception.getMessage());
-            return false;
+            return failed(exception);
         }
     }
 }
