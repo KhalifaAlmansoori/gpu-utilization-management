@@ -671,7 +671,7 @@ public class LogicTests {
 
             advance(clock, scheduler, 2);
 
-            DataStore store = new DataStore(directory);
+            DataStore store = new DataStore(directory.toString());
             store.save(accounts, scheduler);
 
             DataStore.State restored = store.load();
