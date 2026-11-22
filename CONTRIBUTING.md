@@ -33,4 +33,10 @@ If `git push` is rejected, run `git pull`, fix any conflict, then push again.
 ## Package rule
 
 - `model` and `logic` never import `javax.swing`.
-- Button listeners in `ui` only read the fields, call one method in `logic`, and show the result.
+- Button listeners in `ui` read the fields, call an `AppController` action, and refresh the displayed values.
+- `AppController` holds shared state, calls the existing logic services, and saves successful changes.
+  It does not create windows or import Swing. Business rules stay in `model` and `logic`.
+- Each screen can forward the original button event to Main's navigation listener. `Main` creates
+  the windows, refreshes them, and opens the destination requested by the controller.
+- Follow the [production-file review and commit order](README.md#reviewing-and-committing-the-gui-and-storage)
+  when reviewing the GUI and storage changes. The application compiles from `src` alone.
