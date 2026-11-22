@@ -1,11 +1,10 @@
+
 package gpu.logic;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-/**
- * Controls the simulated time used by the GPU scheduler.
- */
+/** Controls the simulated time used by the GPU scheduler. */
 public class SimulationClock {
 
     private LocalDateTime startTime;
@@ -16,6 +15,7 @@ public class SimulationClock {
         this.currentTime = null;
     }
 
+    /** Sets the initial simulation time once. */
     public void setStartTime(LocalDateTime time) {
         if (time == null) {
             throw new IllegalArgumentException("Start time cannot be null.");
@@ -31,6 +31,7 @@ public class SimulationClock {
         this.currentTime = time;
     }
 
+    /** Advances simulated time by exactly one minute. */
     public void advance() {
         if (!isSet()) {
             throw new IllegalStateException(
@@ -53,6 +54,7 @@ public class SimulationClock {
         return currentTime != null;
     }
 
+    /** Returns elapsed simulated minutes, or zero before initialization. */
     public long getElapsedMinutes() {
         if (!isSet()) {
             return 0;
@@ -61,6 +63,7 @@ public class SimulationClock {
         return Duration.between(startTime, currentTime).toMinutes();
     }
 
+    /** Restores a previously saved simulation clock. */
     public void restore(LocalDateTime start, LocalDateTime current) {
         if (start == null || current == null) {
             throw new IllegalArgumentException(
@@ -78,3 +81,4 @@ public class SimulationClock {
         this.currentTime = current;
     }
 }
+
