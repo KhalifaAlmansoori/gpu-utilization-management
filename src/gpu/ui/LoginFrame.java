@@ -1,64 +1,54 @@
 package gpu.ui;
 
-import gpu.model.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/** Login uses the lecture's JFrame, nested panels, grid layout and named listeners. */
+/** Reads login details; AppController authenticates and Main opens the next screen. */
 public class LoginFrame extends JFrame {
     private AppController app;
     private ActionListener navigation;
-    private JTextField username;
-    private JPasswordField password;
-    private JTextField message;
+    private JTextField username = new JTextField(25);
+    private JPasswordField password = new JPasswordField(25);
+    private JLabel message = new JLabel(" ");
 
+    // null lets this screen run alone; Main normally supplies the navigation listener.
     public LoginFrame(AppController app) {
         this(app, null);
     }
 
-    // Main supplies the listener that opens the destination requested by the controller.
     public LoginFrame(AppController app, ActionListener navigation) {
         this.app = app;
         this.navigation = navigation;
         setTitle("GPU Utilization Management - Login");
         setSize(850, 240);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        message.setForeground(Color.RED);
 
-        username = new JTextField(25);
-        password = new JPasswordField(25);
-        message = new JTextField(60);
-        message.setEditable(false);
+        // GridLayout makes two rows: each label is followed by its input field.
         JPanel fields = new JPanel();
         fields.setLayout(new GridLayout(2, 2));
         fields.add(new JLabel("Username / university ID", SwingConstants.RIGHT));
         fields.add(username);
         fields.add(new JLabel("Password", SwingConstants.RIGHT));
         fields.add(password);
+        JPanel form = new JPanel();
+        form.setLayout(new FlowLayout());
+        form.add(fields); // FlowLayout keeps the form at its preferred size.
 
-        JButton loginButton = new JButton("Log in");
-        loginButton.addActionListener(new LoginButtonHandler());
-        JButton registerButton = new JButton("Register as a student");
-        registerButton.addActionListener(new RegisterButtonHandler());
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new SaveButtonHandler());
-        JButton exitButton = new JButton("Exit");
-        exitButton.addActionListener(new ExitButtonHandler());
         JPanel buttons = new JPanel();
         buttons.setLayout(new FlowLayout());
-        buttons.add(loginButton);
-        buttons.add(registerButton);
-        buttons.add(saveButton);
-        buttons.add(exitButton);
+        String[] actions = {"Log in", "Register as a student", "Save", "Exit"};
+        for (String action : actions) {
+            JButton button = new JButton(action);
+            button.addActionListener(new ButtonHandler(action));
+            buttons.add(button);
+        }
         JPanel bottom = new JPanel();
         bottom.setLayout(new BorderLayout());
         bottom.add(message, BorderLayout.PAGE_START);
         bottom.add(buttons, BorderLayout.PAGE_END);
-
-        // The outer panel keeps the form at its normal size.
-        JPanel form = new JPanel();
-        form.setLayout(new FlowLayout());
-        form.add(fields);
+        // The content pane holds the window's top, middle and bottom panels.
         Container pane = getContentPane();
         pane.setLayout(new BorderLayout());
         pane.add(new JLabel("GPU Utilization Management", SwingConstants.CENTER), BorderLayout.PAGE_START);
@@ -76,60 +66,49 @@ public class LoginFrame extends JFrame {
         message.setText(app.status());
     }
 
-    // The frame can also be used alone, without a navigation listener.
-    private void updateScreen(ActionEvent event) {
-        refresh();
-        if (navigation != null) {
-            navigation.actionPerformed(event);
+    private void logIn() {
+        char[] characters = password.getPassword();
+        String passwordText = "";
+        // The account service accepts a String; the password field supplies a char array.
+        for (int i = 0; i < characters.length; i++) {
+            passwordText += characters[i];
         }
-    }
-
-    private class LoginButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            char[] entered = password.getPassword();
-            // Build the String expected by AccountService using a basic array loop.
-            String enteredText = "";
-            for (int i = 0; i < entered.length; i++) {
-                enteredText += entered[i];
+        try {
+            if (app.login(username.getText(), passwordText)) {
+                clearFields();
             }
-            try {
-                User user = app.accounts().authenticate(username.getText(), enteredText);
-                if (user == null) {
-                    app.report("Incorrect login details, or your registration is not approved.");
-                } else {
-                    clearFields();
-                    app.openSession(user);
-                }
-            } finally {
-                // Lecture 9 array traversal clears the temporary password characters.
-                for (int i = 0; i < entered.length; i++) {
-                    entered[i] = ' ';
-                }
-                password.setText("");
-                updateScreen(event);
+        } finally {
+            // Clear the temporary array and field after every attempt.
+            for (int i = 0; i < characters.length; i++) {
+                characters[i] = ' ';
             }
+            password.setText("");
         }
     }
 
-    private class RegisterButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            clearFields();
-            app.showRegistration();
-            updateScreen(event);
-        }
-    }
+    /** Each button passes its label to the same named listener. */
+    private class ButtonHandler implements ActionListener {
+        private String action;
 
-    private class SaveButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent event) {
-            app.save();
-            updateScreen(event);
+        public ButtonHandler(String action) {
+            this.action = action;
         }
-    }
 
-    private class ExitButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            app.close();
-            updateScreen(event);
+            if (action.equals("Log in")) {
+                logIn();
+            } else if (action.equals("Register as a student")) {
+                clearFields();
+                app.showRegistration();
+            } else if (action.equals("Save")) {
+                app.save();
+            } else {
+                app.close();
+            }
+            refresh();
+            if (navigation != null) {
+                navigation.actionPerformed(event); // Main handles window navigation.
+            }
         }
     }
 }
