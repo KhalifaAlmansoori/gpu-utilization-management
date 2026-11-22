@@ -1,0 +1,40 @@
+GPU-UTILIZATION-STATE|1
+[clock]
+set|21/11/2026 09:00|21/11/2026 09:07
+[students]
+100000001|Omar Khalid|student1@example.edu|0501234560|student123|120|7|25
+100000002|Lina Hassan|student2@example.edu|0501234561|student123|100|5|65
+100000003|Sara Ahmed|student3@example.edu|0501234562|student123|100|5|45
+100000004|Yousef Ali|student4@example.edu|0501234563|student123|100|5|35
+100000005|Mariam Salem|student5@example.edu|0501234564|student123|100|0|20
+[requests]
+100000001|Omar Khalid|student1@example.edu|0501234560|student123|APPROVED
+100000002|Lina Hassan|student2@example.edu|0501234561|student123|APPROVED
+100000003|Sara Ahmed|student3@example.edu|0501234562|student123|APPROVED
+100000004|Yousef Ali|student4@example.edu|0501234563|student123|APPROVED
+100000005|Mariam Salem|student5@example.edu|0501234564|student123|APPROVED
+100000006|Pending Student|pending@example.edu|0501234568|student123|PENDING
+100000007|Rejected Student|rejected@example.edu|0501234569|student123|REJECTED
+[grants]
+100000001|20|Additional experiments for the final report|admin|21/11/2026 09:00
+[jobs]
+J101|100000001|Completed experiment 1|PyTorch|A short completed demonstration job|SMALL|21/11/2026 09:00|COMPLETED|1|21/11/2026 09:00|21/11/2026 09:05|||
+J102|100000002|Completed experiment 2|PyTorch|A short completed demonstration job|SMALL|21/11/2026 09:00|COMPLETED|2|21/11/2026 09:00|21/11/2026 09:05|||
+J103|100000003|Completed experiment 3|PyTorch|A short completed demonstration job|SMALL|21/11/2026 09:00|COMPLETED|3|21/11/2026 09:00|21/11/2026 09:05|||
+J104|100000004|Completed experiment 4|PyTorch|A short completed demonstration job|SMALL|21/11/2026 09:00|COMPLETED|4|21/11/2026 09:00|21/11/2026 09:05|||
+J105|100000001|Model training 1|TensorFlow|A longer GPU training run|LARGE|21/11/2026 09:05|CANCELLED|1|21/11/2026 09:05|21/11/2026 09:07|21/11/2026 09:07|admin|Stop this run and free the GPU for queued work
+J106|100000002|Model training 2|TensorFlow|A longer GPU training run|LARGE|21/11/2026 09:05|RUNNING|2|21/11/2026 09:05||||
+J107|100000003|Model training 3|TensorFlow|A longer GPU training run|LARGE|21/11/2026 09:05|RUNNING|3|21/11/2026 09:05||||
+J108|100000004|Model training 4|TensorFlow|A longer GPU training run|LARGE|21/11/2026 09:05|RUNNING|4|21/11/2026 09:05||||
+J109|100000001|Queued experiment 1|CUDA|Demonstrates queue predictions and shared GPU access|SMALL|21/11/2026 09:05|RUNNING|1|21/11/2026 09:07||||
+J110|100000002|Queued experiment 2|CUDA|Demonstrates queue predictions and shared GPU access|MEDIUM|21/11/2026 09:05|QUEUED||||||
+J111|100000003|Queued experiment 3|CUDA|Demonstrates queue predictions and shared GPU access|SMALL|21/11/2026 09:05|CANCELLED||||21/11/2026 09:05|100000003|Different input dataset required
+J112|100000004|Queued experiment 4|CUDA|Demonstrates queue predictions and shared GPU access|MEDIUM|21/11/2026 09:05|CANCELLED||||21/11/2026 09:05|admin|Duplicate experiment
+J113|100000005|Queued experiment 5|CUDA|Demonstrates queue predictions and shared GPU access|SMALL|21/11/2026 09:05|QUEUED||||||
+J114|100000001|Queued experiment 6|CUDA|Demonstrates queue predictions and shared GPU access|MEDIUM|21/11/2026 09:05|QUEUED||||||
+J115|100000002|Queued experiment 7|CUDA|Demonstrates queue predictions and shared GPU access|SMALL|21/11/2026 09:05|QUEUED||||||
+J116|100000003|Queued experiment 8|CUDA|Demonstrates queue predictions and shared GPU access|MEDIUM|21/11/2026 09:05|QUEUED||||||
+J117|100000004|Queued experiment 9|CUDA|Demonstrates queue predictions and shared GPU access|SMALL|21/11/2026 09:05|QUEUED||||||
+J118|100000005|Queued experiment 10|CUDA|Demonstrates queue predictions and shared GPU access|MEDIUM|21/11/2026 09:05|QUEUED||||||
+J119|100000001|Queued experiment 11|CUDA|Demonstrates queue predictions and shared GPU access|SMALL|21/11/2026 09:05|QUEUED||||||
+J120|100000002|Queued experiment 12|CUDA|Demonstrates queue predictions and shared GPU access|MEDIUM|21/11/2026 09:05|QUEUED||||||
